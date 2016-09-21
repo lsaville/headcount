@@ -62,9 +62,6 @@ class HeadcountAnalyst
       min_year = validate_min_year(district.keys.min, subject, name, grade)
       next if max_year == "N/A" || min_year == "N/A"
       crunch_set(max_year, min_year, subject, name, grade)
-      # numerator = numerator(max_year, min_year, subject, name, grade)
-      # denominator = max_year - min_year
-      # [name, growth(numerator, denominator)]
     end
     clean_and_return(result)
   end
