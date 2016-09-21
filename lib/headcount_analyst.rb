@@ -104,7 +104,8 @@ class HeadcountAnalyst
 
   def validate_max_year(year, subject, name, grade)
     district = @district_repository.districts[name]
-    if year == 2008 && district.statewide_test.send(grade)[year][subject] == "N/A"
+    if year == 2008 &&
+      district.statewide_test.send(grade)[year][subject] == "N/A"
       "N/A"
     elsif district.statewide_test.send(grade)[year][subject].is_a?(Float)
       year
@@ -115,7 +116,8 @@ class HeadcountAnalyst
 
   def validate_min_year(year, subject, name, grade)
     district = @district_repository.districts[name]
-    if year == 2014 && district.statewide_test.send(grade)[year][subject] == "N/A"
+    if year == 2014 &&
+      district.statewide_test.send(grade)[year][subject] == "N/A"
       "N/A"
     elsif district.statewide_test.send(grade)[year][subject].is_a?(Float)
       year
