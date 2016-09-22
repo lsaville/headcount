@@ -15,8 +15,7 @@ class EconomicProfile
   end
 
   def median_household_income_in_year(year)
-    raise UnknownDataError,
-      "Unknown year" unless (2005..2014).to_a.include?(year)
+    median_data_error(year)
     counter = 0
     sum = 0
     result = @median_household_income.each do |years, income|
@@ -35,31 +34,45 @@ class EconomicProfile
     average = numerator / @median_household_income.count
   end
 
-  def poverty_years
-    years = [1995,1997,1999,2000,2001,2002,2003,
-      2004,2005,2006,2007,2008,2009,2010,
-      2011,2012,2013]
-  end
-
   def children_in_poverty_in_year(year)
-    years = poverty_years
-    raise UnknownDataError unless years.include?(year)
-
+    poverty_years_error(year)
     Clean.three_truncate(@children_in_poverty[year])
   end
 
   def free_or_reduced_price_lunch_percentage_in_year(year)
-    raise UnknownDataError unless (2000..2014).to_a.include?(year)
+    lunch_error(year)
     Clean.three_truncate(@free_or_reduced_price_lunch[year][:percentage])
   end
 
   def free_or_reduced_price_lunch_number_in_year(year)
-    raise UnknownDataError unless (2000..2014).to_a.include?(year)
+    lunch_error(year)
     @free_or_reduced_price_lunch[year][:total]
   end
 
   def title_i_in_year(year)
-    raise UnknownDataError unless [2009, 2011, 2012, 2013, 2014].include?(year)
+    title_i_error(year)
     Clean.three_truncate(@title_i[year])
+  end
+
+  private
+
+  def title_i_error(year)
+    raise UnknownDataError unless [2009, 2011, 2012, 2013, 2014].include?(year)
+  end
+
+  def poverty_years_error(year)
+    years = [1995,1997,1999,2000,2001,2002,2003,
+      2004,2005,2006,2007,2008,2009,2010,
+      2011,2012,2013]
+      raise UnknownDataError unless years.include?(year)
+    end
+
+  def lunch_error(year)
+    raise UnknownDataError unless (2000..2014).to_a.include?(year)
+  end
+
+  def median_data_error(year)
+    raise UnknownDataError,
+    "Unknown year" unless (2005..2014).to_a.include?(year)
   end
 end
