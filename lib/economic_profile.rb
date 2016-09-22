@@ -16,7 +16,7 @@ class EconomicProfile
 
   def median_household_income_in_year(year)
     raise UnknownDataError,
-      "Unknown year" unless (2005..2013).to_a.include?(year)
+      "Unknown year" unless (2005..2014).to_a.include?(year)
     counter = 0
     sum = 0
     result = @median_household_income.each do |years, income|
@@ -35,10 +35,14 @@ class EconomicProfile
     average = numerator / @median_household_income.count
   end
 
-  def children_in_poverty_in_year(year)
+  def poverty_years
     years = [1995,1997,1999,2000,2001,2002,2003,
-             2004,2005,2006,2007,2008,2009,2010,
-             2011,2012,2013]
+      2004,2005,2006,2007,2008,2009,2010,
+      2011,2012,2013]
+  end
+
+  def children_in_poverty_in_year(year)
+    years = poverty_years
     raise UnknownDataError unless years.include?(year)
 
     Clean.three_truncate(@children_in_poverty[year])
