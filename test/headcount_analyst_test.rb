@@ -24,79 +24,79 @@ class HeadcountAnalystTest < Minitest::Test
     @ha = HeadcountAnalyst.new(dr)
   end
 
-  # def test_it_holds_a_dr
-  #   assert_equal DistrictRepository, ha.district_repository.class
-  # end
-  #
-  # def test_it_can_access_enrollment_data
-  #   district = ha.district_repository.find_by_name("ACADEMY 20")
-  #   assert_equal 0.436, district.enrollment.kindergarten_participation_in_year(2010)
-  # end
-  #
-  # def test_kindergarten_participation_rate_variation
-  #   assert_equal 0.766, ha.kindergarten_participation_rate_variation('ACADEMY 20', :against => 'COLORADO')
-  # end
-  #
-  # def test_kindergarten_participation_rate_variation_other_district
-  #   assert_equal 0.447, ha.kindergarten_participation_rate_variation('ACADEMY 20', :against => 'YUMA SCHOOL DISTRICT 1')
-  # end
-  #
-  # def test_calculate
-  #   assert_equal 0.406, ha.calculate("ACADEMY 20", "kindergarten_participation")
-  #   assert_equal 0.898, ha.calculate("ACADEMY 20", "high_school_graduation")
-  #   assert_equal 0.751, ha.calculate("COLORADO", "high_school_graduation")
-  # end
-  #
-  # def test_kindergarten_participation_rate_variation_trend
-  #   result = {2004 => 1.257, 2005 => 0.96, 2006 => 1.05, 2007 => 0.992, 2008 => 0.717, 2009 => 0.652, 2010 => 0.681, 2011 => 0.727, 2012 => 0.688, 2013 => 0.694, 2014 => 0.661}
-  #   assert_equal result, ha.kindergarten_participation_rate_variation_trend('ACADEMY 20', :against => 'COLORADO')
-  # end
-  #
-  # def test_variation_trend_calculator
-  #   numerator = {2007=>0.39159, 2006=>0.35364, 2005=>0.26709, 2004=>0.30201, 2008=>0.38456, 2009=>0.39, 2010=>0.43628, 2011=>0.489, 2012=>0.47883, 2013=>0.48774, 2014=>0.49022}
-  #   denominator = {2007=>0.39465, 2006=>0.33677, 2005=>0.27807, 2004=>0.24014, 2008=>0.5357, 2009=>0.598, 2010=>0.64019, 2011=>0.672, 2012=>0.695, 2013=>0.70263, 2014=>0.74118}
-  #   result = {2004 => 1.257, 2005 => 0.96, 2006 => 1.05, 2007 => 0.992, 2008 => 0.717, 2009 => 0.652, 2010 => 0.681, 2011 => 0.727, 2012 => 0.688, 2013 => 0.694, 2014 => 0.661}
-  #   assert_equal result, ha.variation_trend_calculator(numerator, denominator)
-  # end
-  #
-  # def test_kindergarten_participation_against_high_school_graduation
-  #   assert_equal 0.641, ha.kindergarten_participation_against_high_school_graduation("ACADEMY 20")
-  #   assert_equal 0.548, ha.kindergarten_participation_against_high_school_graduation('MONTROSE COUNTY RE-1J')
-  #   assert_equal 0.801, ha.kindergarten_participation_against_high_school_graduation('STEAMBOAT SPRINGS RE-2')
-  # end
-  #
-  #
-  # def test_validator
-  #   assert ha.validator(0.6)
-  #   assert ha.validator(1.5)
-  #   assert ha.validator(1.0)
-  #   refute ha.validator(0.5)
-  #   refute ha.validator(1.6)
-  # end
-  #
-  # def test_group_validator
-  #   assert ha.group_validator(0.71)
-  #   refute ha.group_validator(0.22)
-  # end
-  #
-  # def test_kindergarten_participation_correlates_with_high_school_graduation
-  #   assert_equal true, ha.kindergarten_participation_correlates_with_high_school_graduation(for: 'ACADEMY 20')
-  # end
-  #
-  # def test_districts_correlation
-  #   assert_equal true, ha.districts_correlation("ACADEMY 20")
-  # end
-  #
-  # def test_correlation_statewide
-  #   refute ha.kindergarten_participation_correlates_with_high_school_graduation(:for => 'STATEWIDE')
-  # end
-  #
-  # def test_correlation_across
-  #   districts = ["ACADEMY 20", 'PARK (ESTES PARK) R-3', 'YUMA SCHOOL DISTRICT 1']
-  #   assert ha.kindergarten_participation_correlates_with_high_school_graduation(:across => districts)
-  # end
+  def test_it_holds_a_dr
+    assert_equal DistrictRepository, ha.district_repository.class
+  end
 
-  def test_top_statewide_test
+  def test_it_can_access_enrollment_data
+    district = ha.district_repository.find_by_name("ACADEMY 20")
+    assert_equal 0.436, district.enrollment.kindergarten_participation_in_year(2010)
+  end
+
+  def test_kindergarten_participation_rate_variation
+    assert_equal 0.766, ha.kindergarten_participation_rate_variation('ACADEMY 20', :against => 'COLORADO')
+  end
+
+  def test_kindergarten_participation_rate_variation_other_district
+    assert_equal 0.447, ha.kindergarten_participation_rate_variation('ACADEMY 20', :against => 'YUMA SCHOOL DISTRICT 1')
+  end
+
+  def test_calculate
+    assert_equal 0.406, ha.calculate("ACADEMY 20", "kindergarten_participation")
+    assert_equal 0.898, ha.calculate("ACADEMY 20", "high_school_graduation")
+    assert_equal 0.751, ha.calculate("COLORADO", "high_school_graduation")
+  end
+
+  def test_kindergarten_participation_rate_variation_trend
+    result = {2004 => 1.257, 2005 => 0.96, 2006 => 1.05, 2007 => 0.992, 2008 => 0.717, 2009 => 0.652, 2010 => 0.681, 2011 => 0.727, 2012 => 0.688, 2013 => 0.694, 2014 => 0.661}
+    assert_equal result, ha.kindergarten_participation_rate_variation_trend('ACADEMY 20', :against => 'COLORADO')
+  end
+
+  def test_variation_trend_calculator
+    numerator = {2007=>0.39159, 2006=>0.35364, 2005=>0.26709, 2004=>0.30201, 2008=>0.38456, 2009=>0.39, 2010=>0.43628, 2011=>0.489, 2012=>0.47883, 2013=>0.48774, 2014=>0.49022}
+    denominator = {2007=>0.39465, 2006=>0.33677, 2005=>0.27807, 2004=>0.24014, 2008=>0.5357, 2009=>0.598, 2010=>0.64019, 2011=>0.672, 2012=>0.695, 2013=>0.70263, 2014=>0.74118}
+    result = {2004 => 1.257, 2005 => 0.96, 2006 => 1.05, 2007 => 0.992, 2008 => 0.717, 2009 => 0.652, 2010 => 0.681, 2011 => 0.727, 2012 => 0.688, 2013 => 0.694, 2014 => 0.661}
+    assert_equal result, ha.variation_trend_calculator(numerator, denominator)
+  end
+
+  def test_kindergarten_participation_against_high_school_graduation
+    assert_equal 0.641, ha.kindergarten_participation_against_high_school_graduation("ACADEMY 20")
+    assert_equal 0.548, ha.kindergarten_participation_against_high_school_graduation('MONTROSE COUNTY RE-1J')
+    assert_equal 0.801, ha.kindergarten_participation_against_high_school_graduation('STEAMBOAT SPRINGS RE-2')
+  end
+
+
+  def test_validator
+    assert ha.validator(0.6)
+    assert ha.validator(1.5)
+    assert ha.validator(1.0)
+    refute ha.validator(0.5)
+    refute ha.validator(1.6)
+  end
+
+  def test_group_validator
+    assert ha.group_validator(0.71)
+    refute ha.group_validator(0.22)
+  end
+
+  def test_kindergarten_participation_correlates_with_high_school_graduation
+    assert_equal true, ha.kindergarten_participation_correlates_with_high_school_graduation(for: 'ACADEMY 20')
+  end
+
+  def test_districts_correlation
+    assert_equal true, ha.districts_correlation("ACADEMY 20")
+  end
+
+  def test_correlation_statewide
+    refute ha.kindergarten_participation_correlates_with_high_school_graduation(:for => 'STATEWIDE')
+  end
+
+  def test_correlation_across
+    districts = ["ACADEMY 20", 'PARK (ESTES PARK) R-3', 'YUMA SCHOOL DISTRICT 1']
+    assert ha.kindergarten_participation_correlates_with_high_school_graduation(:across => districts)
+  end
+
+  def test_top_error_gate
     assert_raises(UnknownDataError) do
       ha.top_statewide_test_year_over_year_growth(grade: 13, subject: :math)
     end
@@ -104,8 +104,59 @@ class HeadcountAnalystTest < Minitest::Test
     assert_raises(InsufficientInformationError) do
       ha.top_statewide_test_year_over_year_growth(subject: :math)
     end
+  end
 
-    ha.top_statewide_test_year_over_year_growth(grade: 3, subject: :math)
+  def test_top_with_grade_subject
+    assert_equal ["OURAY R-1", 0.242], ha.top_statewide_test_year_over_year_growth(grade: 8, subject: :math)
+    assert_equal ["CENTENNIAL R-1", 0.114], ha.top_statewide_test_year_over_year_growth(grade: 3, subject: :reading)
+    assert_equal ["DE BEQUE 49JT", 0.17], ha.top_statewide_test_year_over_year_growth(grade: 8, subject: :writing)
+  end
+
+  def test_top_with_grade_subject_and_top
+    assert_equal [["DE BEQUE 49JT", 0.17], ["LA VETA RE-2", 0.123], ["OTIS R-3", 0.099]], ha.top_statewide_test_year_over_year_growth(grade: 8, top: 3, subject: :writing)
+    assert_equal [["DE BEQUE 49JT", 0.17], ["LA VETA RE-2", 0.123], ["OTIS R-3", 0.099], ["AKRON R-1", 0.075]], ha.top_statewide_test_year_over_year_growth(grade: 8, top: 4, subject: :writing)
+  end
+
+  def test_top_all_subjects
+    assert_equal ["PRIMERO REORGANIZED 2", 0.208], ha.top_statewide_test_year_over_year_growth(grade: 3)
+    assert_equal ["OURAY R-1", 0.109], ha.top_statewide_test_year_over_year_growth(grade: 8)
+  end
+
+  def test_weighted
+    assert_equal ["OURAY R-1", 0.153], ha.top_statewide_test_year_over_year_growth(grade: 8, :weighting => {:math => 0.5, :reading => 0.5, :writing => 0.0})
+  end
+
+  def test_clean_master
+    data = {"AGUILAR REORGANIZED 6"=>[0.0, nil, nil], "ARICKAREE R-2"=>[0.0, nil, 0.055]}
+    result = {"AGUILAR REORGANIZED 6"=>[0.0, 0, 0], "ARICKAREE R-2"=>[0.0, 0, 0.055]}
+  end
+
+  def test_apply_weight
+    values = [10,10,10]
+    weighting = {math: 0.33, reading: 0.33, writing: 0.33}
+    assert_equal [3.3000000000000003, 3.3000000000000003, 3.3000000000000003], ha.apply_weight(values, weighting)
+
+    weighting = {math: 0.5, reading: 0.5, writing: 0}
+    assert_equal [1.6500000000000001, 1.6500000000000001, 0.0], ha.apply_weight(values, weighting)
+  end
+
+  def test_master_sum
+    data = {"AKRON R-1"=>[0.0095, 0.0, 0.0],  "BIG SANDY 100J"=>[0.0045, 0.0235, 0.0]}
+    assert_equal ["BIG SANDY 100J", 0.028], ha.master_sum(data)
+  end
+
+  def test_clean_nils
+    set = [5, nil, 6]
+    assert_equal [5, 0, 6], ha.clean_nils(set)
+  end
+
+  def test_kindergarten_participation_finder
+    data = {2007=>0.39159, 2006=>0.35364, 2005=>0.26709,
+            2004=>0.30201, 2008=>0.38456, 2009=>0.39,
+            2010=>0.43628, 2011=>0.489, 2012=>0.47883,
+            2013=>0.48774, 2014=>0.49022}
+
+    assert_equal data, ha.kindergarten_participation_finder("ACADEMY 20")
   end
 
 end
