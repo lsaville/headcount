@@ -1,6 +1,7 @@
 require_relative 'district_repository'
 require_relative 'exceptions'
 require_relative 'clean'
+require_relative 'district_repository'
 
 class HeadcountAnalyst
   include Clean
@@ -28,10 +29,97 @@ class HeadcountAnalyst
     when [:grade, :subject, :top]
       n_tops(data)
     when [:grade]
-      puts "all subjects"
+      all_subjects(data, {math: 0.333, reading: 0.333, writing: 0.333})
     when [:grade, :weighting]
-      puts "weighted thing"
+      all_subjects(data, data[:weighting])
     end
+  end
+
+  def all_subjects(data, weighting)
+    results = get_subject_results(data)
+    subjects = make_subject_hashes(results[0], results[1], results[2])
+    master = load_subject_to_master(subjects[0], subjects[1], subjects[2]) #master is fresh here
+    clean_master = clean_master(master)
+    crunch_master(clean_master, weighting)
+  end
+
+  # def crunch_master(clean_master, weighting)
+  #   require "pry"; binding.pry
+  #   # if weighting == "even"
+  #   #   even_weighting = {math: 0.333, reading: 0.333, writing: 0.333}
+  #   #   crunch_master_weighted(clean_master, even_weighting)
+  #   # else
+  #   crunch_master_weighted(clean_master, weighting)
+  #   # end
+  # end
+
+  def crunch_master(clean_master, weighting)
+    clean_master.each do |name, values|
+      clean_master[name] = apply_weight(values, weighting)
+    end
+    master_sum(clean_master)
+  end
+
+  def master_sum(clean_master)
+    clean_master.each do |name, values|
+      clean_master[name] = values.reduce {|sum, value| sum += value}
+    end
+    polished = clean_and_return(clean_master.to_a)
+    polished.last
+  end
+
+  def apply_weight(values, weighting)
+    result = values.map.with_index do |value, index|
+      values[index] = value * weighting.values[index]
+    end
+    result
+  end
+
+  def clean_master(master)
+    master.each do |name, growths|
+      master[name] = clean_nils(growths)
+    end
+  end
+
+  def clean_nils(set)
+    set = set.map do |value|
+      if value == nil
+        0
+      else
+        value
+      end
+    end
+    set
+  end
+
+  def make_subject_hashes(math_data, reading_data, writing_data)
+    math = Hash[grade_picker(math_data)]
+    reading = Hash[grade_picker(reading_data)]
+    writing = Hash[grade_picker(writing_data)]
+    [math, reading, writing]
+  end
+
+  def get_subject_results(data)
+    math_data = {:grade => data[:grade], :subject => :math}
+    reading_data = {:grade => data[:grade], :subject => :reading}
+    writing_data = {:grade => data[:grade], :subject => :writing}
+    [math_data, reading_data, writing_data]
+  end
+
+  def load_subject_to_master(math, reading, writing)
+    master_hash = master_hash_maker
+    master_hash.each do |name, values|
+      master_hash[name] = [math[name], reading[name], writing[name]]
+    end
+    master_hash
+  end
+
+  def master_hash_maker
+    master_hash = {}
+    @district_repository.districts.keys.each do |name|
+      master_hash[name] = []
+    end
+    master_hash
   end
 
   def n_tops(data)

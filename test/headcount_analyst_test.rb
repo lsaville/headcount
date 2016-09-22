@@ -107,8 +107,8 @@ class HeadcountAnalystTest < Minitest::Test
   end
 
   def test_top_with_grade_subject
-    assert_equal ['PRIMERO REORGANIZED 2', 0.625], ha.top_statewide_test_year_over_year_growth(grade: 3, subject: :math)
     assert_equal ["OURAY R-1", 0.242], ha.top_statewide_test_year_over_year_growth(grade: 8, subject: :math)
+    assert_equal ["CENTENNIAL R-1", 0.114], ha.top_statewide_test_year_over_year_growth(grade: 3, subject: :reading)
     assert_equal ["DE BEQUE 49JT", 0.17], ha.top_statewide_test_year_over_year_growth(grade: 8, subject: :writing)
   end
 
@@ -117,4 +117,12 @@ class HeadcountAnalystTest < Minitest::Test
     assert_equal [["DE BEQUE 49JT", 0.17], ["LA VETA RE-2", 0.123], ["OTIS R-3", 0.099], ["AKRON R-1", 0.075]], ha.top_statewide_test_year_over_year_growth(grade: 8, top: 4, subject: :writing)
   end
 
+  def test_top_all_subjects
+    assert_equal ["PRIMERO REORGANIZED 2", 0.208], ha.top_statewide_test_year_over_year_growth(grade: 3)
+    assert_equal ["OURAY R-1", 0.109], ha.top_statewide_test_year_over_year_growth(grade: 8)
+  end
+
+  def test_weighted
+    assert_equal ["OURAY R-1", 0.153], ha.top_statewide_test_year_over_year_growth(grade: 8, :weighting => {:math => 0.5, :reading => 0.5, :writing => 0.0})
+  end
 end

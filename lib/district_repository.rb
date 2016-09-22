@@ -59,7 +59,7 @@ class DistrictRepository
   end
 
   def district_existence(name)
-    if @statewide_tests.is_a?(Hash) && @economic_profiles.is_a?(Hash)
+    if data_exists?
       data = {name: name, enrollment: @enrollments.find_by_name(name)}
     elsif @economic_profiles.is_a?(Hash)
       data = {name: name, enrollment: @enrollments.find_by_name(name),
@@ -70,6 +70,10 @@ class DistrictRepository
               economic_profile: @economic_profiles.find_by_name(name)}
     end
     @districts[name.upcase] = District.new(data) unless find_by_name(name)
+  end
+
+  def data_exists?
+    @statewide_tests.is_a?(Hash) && @economic_profiles.is_a?(Hash)
   end
 
   def find_by_name(name)
