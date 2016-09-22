@@ -38,20 +38,10 @@ class HeadcountAnalyst
   def all_subjects(data, weighting)
     results = get_subject_results(data)
     subjects = make_subject_hashes(results[0], results[1], results[2])
-    master = load_subject_to_master(subjects[0], subjects[1], subjects[2]) #master is fresh here
+    master = load_subject_to_master(subjects[0], subjects[1], subjects[2])
     clean_master = clean_master(master)
     crunch_master(clean_master, weighting)
   end
-
-  # def crunch_master(clean_master, weighting)
-  #   require "pry"; binding.pry
-  #   # if weighting == "even"
-  #   #   even_weighting = {math: 0.333, reading: 0.333, writing: 0.333}
-  #   #   crunch_master_weighted(clean_master, even_weighting)
-  #   # else
-  #   crunch_master_weighted(clean_master, weighting)
-  #   # end
-  # end
 
   def crunch_master(clean_master, weighting)
     clean_master.each do |name, values|
@@ -65,6 +55,7 @@ class HeadcountAnalyst
       clean_master[name] = values.reduce {|sum, value| sum += value}
     end
     polished = clean_and_return(clean_master.to_a)
+    require "pry"; binding.pry
     polished.last
   end
 
