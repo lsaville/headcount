@@ -19,7 +19,7 @@ class EconomicProfileTest < MiniTest::Test
           }})
   end
 
-  def test_median_household_income_average
+  def test_median_household_income_in_year
     academy = @epr.find_by_name("Academy 20")
     assert_equal 86203, academy.median_household_income_in_year(2007)
     assert_equal 89953, academy.median_household_income_in_year(2013)
