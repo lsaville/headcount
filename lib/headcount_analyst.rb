@@ -12,12 +12,16 @@ class HeadcountAnalyst
     @district_repository = dr
   end
 
-  def top_statewide_test_year_over_year_growth(data)
+  def top_statewide_error(data)
     raise InsufficientInformationError,
       "A grade must be provided to answer this question" if data[:grade] == nil
     raise UnknownDataError,
       "#{data[:grade]} is not a known grade" unless
         data[:grade] == 3 || data[:grade] == 8
+  end
+
+  def top_statewide_test_year_over_year_growth(data)
+    top_statewide_error(data)
     top_statewide_data_control(data)
   end
 
@@ -55,7 +59,6 @@ class HeadcountAnalyst
       clean_master[name] = values.reduce {|sum, value| sum += value}
     end
     polished = clean_and_return(clean_master.to_a)
-    require "pry"; binding.pry
     polished.last
   end
 
@@ -122,10 +125,11 @@ class HeadcountAnalyst
 
   def grade_picker(data)
     if data[:grade] == 3
-      top_statewide(data[:subject], "third_grade")
+      result = top_statewide(data[:subject], "third_grade")
     else
-      top_statewide(data[:subject], "eighth_grade")
+      result = top_statewide(data[:subject], "eighth_grade")
     end
+    clean_and_return(result)
   end
 
   def simple_top(data)
@@ -142,7 +146,6 @@ class HeadcountAnalyst
       next if max_year == "N/A" || min_year == "N/A"
       crunch_set(max_year, min_year, subject, name, grade)
     end
-    clean_and_return(result)
   end
 
   def crunch_set(max_year, min_year, subject, name, grade)
@@ -180,8 +183,7 @@ class HeadcountAnalyst
 
   def validate_max_year(year, subject, name, grade)
     district = @district_repository.districts[name]
-    if year == 2008 &&
-      district.statewide_test.send(grade)[year][subject] == "N/A"
+    if max_year_base_condition?(year, subject, grade, district)
       "N/A"
     elsif district.statewide_test.send(grade)[year][subject].is_a?(Float)
       year
@@ -190,10 +192,19 @@ class HeadcountAnalyst
     end
   end
 
+  def min_year_base_condition?(year, subject, grade, district)
+    year == 2014 &&
+      district.statewide_test.send(grade)[year][subject] == "N/A"
+  end
+
+  def max_year_base_condition?(year, subject, grade, district)
+    year == 2008 &&
+      district.statewide_test.send(grade)[year][subject] == "N/A"
+  end
+
   def validate_min_year(year, subject, name, grade)
     district = @district_repository.districts[name]
-    if year == 2014 &&
-      district.statewide_test.send(grade)[year][subject] == "N/A"
+    if min_year_base_condition?(year, subject, grade, district)
       "N/A"
     elsif district.statewide_test.send(grade)[year][subject].is_a?(Float)
       year
@@ -209,11 +220,14 @@ class HeadcountAnalyst
   end
 
   def kindergarten_participation_rate_variation_trend(name, against)
+    numerator = kindergarten_participation_finder(name)
+    denominator = kindergarten_participation_finder(against[:against])
+    variation_trend_calculator(numerator, denominator)
+  end
+
+  def kindergarten_participation_finder(name)
     numerator = @district_repository.
       find_by_name(name).enrollment.kindergarten_participation
-    denominator = @district_repository.
-      find_by_name(against[:against]).enrollment.kindergarten_participation
-    variation_trend_calculator(numerator, denominator)
   end
 
   def kindergarten_participation_against_high_school_graduation(name)
